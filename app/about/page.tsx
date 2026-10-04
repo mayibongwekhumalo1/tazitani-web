@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowRight, Heart, Users, Sprout, BookOpen, Shield } from 'lucide-react';
 import { Navbar, Footer, Reveal, SectionHeading, Button, PageHero, images } from '@/components/shared';
 
@@ -87,7 +88,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <section className="bg-white py-24">
+        <section id="founder" className="scroll-mt-28 bg-white py-24">
           <div className="container-shell grid items-center gap-12 lg:grid-cols-[.7fr_1.3fr]">
             <Reveal>
               <div className="relative mx-auto max-w-sm">
@@ -124,7 +125,7 @@ export default function AboutPage() {
                 <p className="mt-6 text-base leading-8 text-white/75">There is a place for you in this story — whether through giving, volunteering, partnering, or simply staying informed.</p>
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
                   <Button light href="/donate">Donate Now <ArrowRight size={15} /></Button>
-                  <a href="/volunteer" className="focus-ring inline-flex items-center gap-2 border border-white px-5 py-3 text-xs font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-white hover:text-navy">Become a Volunteer</a>
+                  <Link href="/volunteer" className="focus-ring inline-flex items-center gap-2 border border-white px-5 py-3 text-xs font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-white hover:text-navy">Become a Volunteer</Link>
                 </div>
               </div>
             </Reveal>

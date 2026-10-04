@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { Users, Sprout, HeartHandshake, Mountain, ArrowRight, Quote } from 'lucide-react';
 import { Navbar, Footer, Reveal, SectionHeading, Button, PageHero, images } from '@/components/shared';
 
@@ -12,10 +13,10 @@ const stats = [
 ];
 
 const focusAreas = [
-  { title: 'Education', text: 'Supporting schools, literacy, and skills training to open doors for the next generation.', image: images.school },
-  { title: 'Agriculture', text: 'Helping families build sustainable livelihoods through farming and enterprise.', image: images.farm },
-  { title: 'Community', text: 'Strengthening the social fabric of rural life through infrastructure and support.', image: images.meeting },
-  { title: 'Environment', text: 'Protecting creation through conservation, tree planting, and sustainable practices.', image: images.volunteers },
+  { title: 'Education', href: '/what-we-do#education', text: 'Supporting schools, literacy, and skills training to open doors for the next generation.', image: images.school },
+  { title: 'Agriculture', href: '/what-we-do#livelihoods', text: 'Helping families build sustainable livelihoods through farming and enterprise.', image: images.farm },
+  { title: 'Community', href: '/what-we-do#community', text: 'Strengthening the social fabric of rural life through infrastructure and support.', image: images.meeting },
+  { title: 'Environment', href: '/what-we-do#environment', text: 'Protecting creation through conservation, tree planting, and sustainable practices.', image: images.volunteers },
 ];
 
 const stories = [
@@ -53,14 +54,16 @@ export default function ImpactPage() {
             <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
               {focusAreas.map((area, i) => (
                 <Reveal key={area.title} delay={i * 0.06}>
-                  <article className="group h-full border border-slate-200 bg-white transition-all hover:-translate-y-1 hover:shadow-lg">
+                  <Link href={area.href} className="focus-ring group block h-full border border-slate-200 bg-white transition-all hover:-translate-y-1 hover:shadow-lg">
+                    <article>
                     <div className="relative aspect-[1.2] overflow-hidden">
                       <Image src={area.image} alt={area.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 90vw, 25vw" />
                       <div className="absolute inset-0 bg-gradient-to-t from-navy/60 to-transparent" />
                       <h3 className="absolute bottom-4 left-5 font-display text-xl text-white">{area.title}</h3>
                     </div>
                     <p className="p-5 text-sm leading-6 text-slate-600">{area.text}</p>
-                  </article>
+                    </article>
+                  </Link>
                 </Reveal>
               ))}
             </div>
@@ -100,7 +103,7 @@ export default function ImpactPage() {
                 <p className="mt-6 text-base leading-8 text-white/75">Every donation, every hour volunteered, every partnership brings us closer to communities that thrive.</p>
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
                   <Button light href="/donate">Donate Now <ArrowRight size={15} /></Button>
-                  <a href="/volunteer" className="focus-ring inline-flex items-center gap-2 border border-white px-5 py-3 text-xs font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-white hover:text-navy">Become a Volunteer</a>
+                  <Link href="/volunteer" className="focus-ring inline-flex items-center gap-2 border border-white px-5 py-3 text-xs font-bold uppercase tracking-[0.12em] text-white transition-colors hover:bg-white hover:text-navy">Become a Volunteer</Link>
                 </div>
               </div>
             </Reveal>

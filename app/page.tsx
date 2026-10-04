@@ -2,18 +2,19 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, BookOpen, BriefcaseBusiness, Check, ChevronLeft, ChevronRight, HeartHandshake, Leaf, MessageCircle, Mountain, MoveUpRight, Sprout, Users, X, Landmark, Mail } from 'lucide-react';
-import { Navbar, Footer, Reveal, SectionHeading, Button, BrandMark, images, navItems } from '@/components/shared';
+import { ArrowRight, BookOpen, BriefcaseBusiness, ChevronLeft, ChevronRight, HeartHandshake, Leaf, MessageCircle, Mountain, MoveUpRight, Sprout, Users, X, Landmark, Mail } from 'lucide-react';
+import { Navbar, Footer, Reveal, SectionHeading, Button, images } from '@/components/shared';
+import { newsItems } from '@/lib/news';
 
 const programs = [
-  { icon: BookOpen, title: 'Education & Skills Development', text: 'Promoting quality education and practical skills for lifelong growth.', image: images.school },
-  { icon: Sprout, title: 'Sustainable Livelihoods', text: 'Supporting agriculture, entrepreneurship and income-generating initiatives.', image: images.farm },
-  { icon: Users, title: 'Youth & Women Empowerment', text: 'Equipping young people and women to lead and create change.', image: images.group },
-  { icon: Landmark, title: 'Community Development', text: 'Building stronger communities through infrastructure and social support.', image: images.meeting },
-  { icon: Leaf, title: 'Environmental Stewardship', text: 'Protecting the environment for a sustainable future.', image: images.volunteers },
-  { icon: HeartHandshake, title: 'Faith & Servant Leadership', text: 'Inspiring godly values, integrity and service to humanity.', image: images.landscape },
+  { slug: 'education', icon: BookOpen, title: 'Education & Skills Development', text: 'Promoting quality education and practical skills for lifelong growth.', image: images.school },
+  { slug: 'livelihoods', icon: Sprout, title: 'Sustainable Livelihoods', text: 'Supporting agriculture, entrepreneurship and income-generating initiatives.', image: images.farm },
+  { slug: 'youth-women', icon: Users, title: 'Youth & Women Empowerment', text: 'Equipping young people and women to lead and create change.', image: images.group },
+  { slug: 'community', icon: Landmark, title: 'Community Development', text: 'Building stronger communities through infrastructure and social support.', image: images.meeting },
+  { slug: 'environment', icon: Leaf, title: 'Environmental Stewardship', text: 'Protecting the environment for a sustainable future.', image: images.volunteers },
+  { slug: 'faith', icon: HeartHandshake, title: 'Faith & Servant Leadership', text: 'Inspiring godly values, integrity and service to humanity.', image: images.landscape },
 ];
 const gallery = [images.farm, images.school, images.meeting, images.volunteers, images.group, images.landscape, images.class, images.hero];
 
@@ -89,7 +90,7 @@ function Programs() {
       <div className="container-shell">
         <Reveal><SectionHeading eyebrow="What we do" title="Practical programmes. Lasting change." text="We create opportunity, strengthen communities and build sustainable futures through six connected focus areas." /></Reveal>
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {programs.map(({ icon: Icon, title, text, image }, i) => (
+          {programs.map(({ slug, icon: Icon, title, text, image }, i) => (
             <Reveal key={title} delay={i * 0.05}>
               <article className="group h-full border border-slate-200 bg-white transition-all hover:-translate-y-1 hover:border-gold hover:shadow-xl">
                 <div className="relative aspect-[1.45] overflow-hidden">
@@ -100,7 +101,7 @@ function Programs() {
                 <div className="p-5">
                   <h3 className="font-display text-2xl leading-tight text-navy">{title}</h3>
                   <p className="mt-3 text-sm leading-6 text-slate-600">{text}</p>
-                  <Link href="/what-we-do" className="focus-ring mt-5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-forest">Learn more <MoveUpRight size={14} /></Link>
+                  <Link href={`/what-we-do#${slug}`} className="focus-ring mt-5 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-forest">Learn more <MoveUpRight size={14} /></Link>
                 </div>
               </article>
             </Reveal>
@@ -195,7 +196,7 @@ function Founder() {
             <h2 className="section-title mt-4">A vision for communities to thrive.</h2>
             <p className="body-copy mt-6 text-base">Tazitani was born from a conviction that rural communities carry immense strength and possibility. Our work brings faith together with practical action: creating pathways for young people, supporting agriculture and enterprise, expanding access to education, and helping families build self-reliance.</p>
             <p className="body-copy mt-4 text-base">At the heart of it all is a simple hope — to see people equipped, communities strengthened, and futures restored.</p>
-            <Link href="/about" className="focus-ring mt-8 inline-flex items-center gap-2 border-b border-navy pb-2 text-xs font-bold uppercase tracking-widest text-navy">Read the founder&apos;s message <ArrowRight size={15} /></Link>
+            <Link href="/about#founder" className="focus-ring mt-8 inline-flex items-center gap-2 border-b border-navy pb-2 text-xs font-bold uppercase tracking-widest text-navy">Read the founder&apos;s message <ArrowRight size={15} /></Link>
           </div>
         </Reveal>
       </div>
@@ -224,8 +225,8 @@ function Stories() {
               <p className="text-sm text-slate-500">{story.role}</p>
             </div>
             <div className="mt-8 flex gap-2">
-              <button className="focus-ring flex h-10 w-10 items-center justify-center border border-navy text-navy" onClick={() => setActive((active + stories.length - 1) % stories.length)} aria-label="Previous story"><ChevronLeft size={18} /></button>
-              <button className="focus-ring flex h-10 w-10 items-center justify-center bg-navy text-white" onClick={() => setActive((active + 1) % stories.length)} aria-label="Next story"><ChevronRight size={18} /></button>
+              <button type="button" className="focus-ring flex h-10 w-10 items-center justify-center border border-navy text-navy" onClick={() => setActive((active + stories.length - 1) % stories.length)} aria-label="Previous story"><ChevronLeft size={18} /></button>
+              <button type="button" className="focus-ring flex h-10 w-10 items-center justify-center bg-navy text-white" onClick={() => setActive((active + 1) % stories.length)} aria-label="Next story"><ChevronRight size={18} /></button>
               <p className="ml-auto self-center text-xs font-bold tracking-widest text-slate-400">0{active + 1} / 0{stories.length}</p>
             </div>
           </div>
@@ -236,12 +237,7 @@ function Stories() {
 }
 
 function News() {
-  const news = [
-    { category: 'Education', date: 'Coming soon', title: 'Creating room for every learner to grow', image: images.school },
-    { category: 'Agriculture', date: 'Coming soon', title: 'Growing opportunity from the ground up', image: images.farm },
-    { category: 'Community', date: 'Coming soon', title: 'Listening first, building together', image: images.meeting },
-    { category: 'Partnerships', date: 'Coming soon', title: 'Working together for lasting impact', image: images.group },
-  ];
+  const news = newsItems.slice(0, 4);
   return (
     <section className="bg-white py-24">
       <div className="container-shell">
@@ -251,15 +247,15 @@ function News() {
         </div>
         <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {news.map((item, i) => (
-            <Reveal key={item.title} delay={i * 0.06}>
+            <Reveal key={item.slug} delay={i * 0.06}>
               <article className="group h-full">
                 <div className="relative aspect-[1.25] overflow-hidden">
-                  <Image src={item.image} alt={item.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 90vw, 25vw" />
+                  <Image src={images[item.image as keyof typeof images]} alt={item.title} fill className="object-cover transition-transform duration-700 group-hover:scale-105" sizes="(max-width: 768px) 90vw, 25vw" />
                 </div>
                 <div className="pt-4">
                   <p className="text-[10px] font-bold uppercase tracking-widest text-gold">{item.category} <span className="mx-2 text-slate-300">/</span> {item.date}</p>
                   <h3 className="mt-2 font-display text-xl leading-tight text-navy">{item.title}</h3>
-                  <Link href="/news" className="focus-ring mt-4 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-forest">Read more <ArrowRight size={13} /></Link>
+                  <Link href={`/news/${item.slug}`} className="focus-ring mt-4 inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-widest text-forest">Read more <ArrowRight size={13} /></Link>
                 </div>
               </article>
             </Reveal>
@@ -272,22 +268,32 @@ function News() {
 
 function Gallery() {
   const [selected, setSelected] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (selected === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setSelected(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [selected]);
+
   return (
     <section className="bg-cream py-24">
       <div className="container-shell">
         <Reveal><SectionHeading eyebrow="Impact in action" title="Small steps. Shared progress." text="A glimpse of the people, places and possibilities at the heart of Tazitani." /></Reveal>
         <div className="mt-12 grid grid-cols-2 gap-3 md:grid-cols-4">
           {gallery.map((src, i) => (
-            <motion.button whileHover={{ scale: 1.02 }} key={src} onClick={() => setSelected(i)} className={`focus-ring relative overflow-hidden ${i === 0 || i === 5 ? 'aspect-[.78] md:row-span-2' : 'aspect-square'}`} aria-label={`Open gallery image ${i + 1}`}>
+            <motion.button type="button" whileHover={{ scale: 1.02 }} key={`${src}-${i}`} onClick={() => setSelected(i)} className={`focus-ring relative overflow-hidden ${i === 0 || i === 5 ? 'aspect-[.78] md:row-span-2' : 'aspect-square'}`} aria-label={`Open gallery image ${i + 1}`}>
               <Image src={src} alt="Tazitani community life" fill className="object-cover" sizes="(max-width: 768px) 50vw, 25vw" />
             </motion.button>
           ))}
         </div>
       </div>
       {selected !== null && (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-navy/90 p-5" role="dialog" aria-modal="true">
-          <button className="focus-ring absolute right-5 top-5 text-white" onClick={() => setSelected(null)} aria-label="Close image"><X size={28} /></button>
-          <div className="relative h-[80vh] w-full max-w-5xl">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-navy/90 p-5" role="dialog" aria-modal="true" aria-label="Gallery image" onClick={() => setSelected(null)}>
+          <button type="button" className="focus-ring absolute right-5 top-5 text-white" onClick={() => setSelected(null)} aria-label="Close image"><X size={28} /></button>
+          <div className="relative h-[80vh] w-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
             <Image src={gallery[selected]} alt="Expanded Tazitani community photo" fill className="object-contain" sizes="90vw" />
           </div>
         </div>
@@ -320,7 +326,7 @@ function Involved() {
     { icon: HeartHandshake, title: 'Donate', text: 'Your support helps us implement life-changing programmes.', action: 'Donate now', href: '/donate' },
     { icon: Users, title: 'Volunteer', text: 'Give your time and skills to make a real difference.', action: 'Become a volunteer', href: '/volunteer' },
     { icon: BriefcaseBusiness, title: 'Partner', text: 'Collaborate with us to expand our reach and impact.', action: 'Partner with us', href: '/contact' },
-    { icon: Mail, title: 'Stay informed', text: 'Subscribe for updates and stories of impact.', action: 'Subscribe', href: '/contact' },
+    { icon: Mail, title: 'Stay informed', text: 'Subscribe for updates and stories of impact.', action: 'Subscribe', href: '#newsletter' },
   ];
   return (
     <section className="bg-white py-24">

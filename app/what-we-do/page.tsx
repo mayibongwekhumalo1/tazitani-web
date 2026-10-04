@@ -1,11 +1,13 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { ArrowRight, BookOpen, Sprout, Users, Landmark, Leaf, HeartHandshake, MoveUpRight, Check } from 'lucide-react';
 import { Navbar, Footer, Reveal, SectionHeading, Button, PageHero, images } from '@/components/shared';
 
 const programs = [
   {
+    slug: 'education',
     icon: BookOpen,
     title: 'Education & Skills Development',
     short: 'Promoting quality education and practical skills for lifelong growth.',
@@ -14,6 +16,7 @@ const programs = [
     points: ['School support and supplies', 'Vocational and technical training', 'Literacy and adult learning', 'Mentorship programmes'],
   },
   {
+    slug: 'livelihoods',
     icon: Sprout,
     title: 'Sustainable Livelihoods',
     short: 'Supporting agriculture, entrepreneurship and income-generating initiatives.',
@@ -22,6 +25,7 @@ const programs = [
     points: ['Sustainable agriculture training', 'Entrepreneurship support', 'Income-generating projects', 'Market access initiatives'],
   },
   {
+    slug: 'youth-women',
     icon: Users,
     title: 'Youth & Women Empowerment',
     short: 'Equipping young people and women to lead and create change.',
@@ -30,6 +34,7 @@ const programs = [
     points: ['Leadership development', 'Women&apos;s enterprise groups', 'Youth mentorship', 'Life skills training'],
   },
   {
+    slug: 'community',
     icon: Landmark,
     title: 'Community Development',
     short: 'Building stronger communities through infrastructure, health and social support.',
@@ -38,6 +43,7 @@ const programs = [
     points: ['Community infrastructure', 'Health and wellbeing initiatives', 'Social support programmes', 'Local capacity building'],
   },
   {
+    slug: 'environment',
     icon: Leaf,
     title: 'Environmental Stewardship',
     short: 'Protecting the environment for a sustainable future.',
@@ -46,6 +52,7 @@ const programs = [
     points: ['Tree planting initiatives', 'Conservation awareness', 'Sustainable land use', 'Environmental education'],
   },
   {
+    slug: 'faith',
     icon: HeartHandshake,
     title: 'Faith & Servant Leadership',
     short: 'Inspiring godly values, integrity and service to humanity.',
@@ -88,8 +95,8 @@ export default function WhatWeDoPage() {
             <Reveal><SectionHeading eyebrow="Programmes & focus areas" title="Six areas. One vision." /></Reveal>
             <div className="mt-14 space-y-16">
               {programs.map((program, i) => (
-                <Reveal key={program.title} delay={i * 0.03}>
-                  <div className={`grid items-center gap-10 lg:grid-cols-2 ${i % 2 === 1 ? 'lg:[direction:rtl]' : ''}`}>
+                <Reveal key={program.slug} delay={i * 0.03}>
+                  <div id={program.slug} className={`scroll-mt-28 grid items-center gap-10 lg:grid-cols-2 ${i % 2 === 1 ? 'lg:[direction:rtl]' : ''}`}>
                     <div className="relative aspect-[1.4] overflow-hidden lg:[direction:ltr]">
                       <Image src={program.image} alt={program.title} fill className="object-cover" sizes="(max-width: 1024px) 90vw, 50vw" />
                     </div>
@@ -105,7 +112,7 @@ export default function WhatWeDoPage() {
                           </li>
                         ))}
                       </ul>
-                      <a href="/contact" className="focus-ring mt-8 inline-flex items-center gap-2 border-b border-navy pb-2 text-xs font-bold uppercase tracking-widest text-navy">Learn more <MoveUpRight size={14} /></a>
+                      <Link href={`/contact?subject=${encodeURIComponent(program.title)}`} className="focus-ring mt-8 inline-flex items-center gap-2 border-b border-navy pb-2 text-xs font-bold uppercase tracking-widest text-navy">Enquire about this programme <MoveUpRight size={14} /></Link>
                     </div>
                   </div>
                 </Reveal>
@@ -121,7 +128,7 @@ export default function WhatWeDoPage() {
                 <SectionHeading eyebrow="Get involved" title="Your support makes this possible." text="Every programme is powered by people who choose to take part. Find the path that feels right for you." align="center" />
                 <div className="mt-8 flex flex-wrap justify-center gap-3">
                   <Button href="/donate">Donate Now <ArrowRight size={15} /></Button>
-                  <a href="/volunteer" className="focus-ring inline-flex items-center gap-2 border border-navy px-5 py-3 text-xs font-bold uppercase tracking-[0.12em] text-navy transition-colors hover:bg-navy hover:text-white">Become a Volunteer</a>
+                  <Link href="/volunteer" className="focus-ring inline-flex items-center gap-2 border border-navy px-5 py-3 text-xs font-bold uppercase tracking-[0.12em] text-navy transition-colors hover:bg-navy hover:text-white">Become a Volunteer</Link>
                 </div>
               </div>
             </Reveal>

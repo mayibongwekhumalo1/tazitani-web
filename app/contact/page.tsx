@@ -1,11 +1,22 @@
 'use client';
 
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { MapPin, Mail, Phone, Send, Check, AlertCircle, Loader2 } from 'lucide-react';
 import { Navbar, Footer, Reveal, PageHero, images } from '@/components/shared';
 import { supabase } from '@/lib/supabase';
 
 export default function ContactPage() {
+  return (
+    <Suspense fallback={null}>
+      <ContactContent />
+    </Suspense>
+  );
+}
+
+function ContactContent() {
+  const searchParams = useSearchParams();
+  const defaultSubject = searchParams.get('subject') ?? '';
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
@@ -14,6 +25,11 @@ export default function ContactPage() {
     setStatus('loading');
     setErrorMsg('');
     const formData = new FormData(e.currentTarget);
+    if (!supabase) {
+      setStatus('error');
+      setErrorMsg('Supabase is not configured. Please try again later.');
+      return;
+    }
     const { error } = await supabase.from('contact_messages').insert({
       name: formData.get('name'),
       email: formData.get('email'),
@@ -60,8 +76,8 @@ export default function ContactPage() {
                     <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-gold text-navy"><Phone size={20} /></div>
                     <div>
                       <p className="font-bold text-navy">Phone</p>
-                      <p className="text-sm text-slate-600">+263 XX XXX XXXX</p>
-                      <p className="text-[11px] italic text-slate-400">Placeholder — number to be confirmed.</p>
+                      <p className="text-sm text-slate-600">Number to be confirmed</p>
+                      <a href="mailto:info@tazitani.org.zw" className="focus-ring text-sm text-forest hover:text-navy">Email us to request a call</a>
                     </div>
                   </div>
                 </div>
@@ -75,7 +91,7 @@ export default function ContactPage() {
                     <div className="flex h-16 w-16 items-center justify-center rounded-full bg-forest text-white"><Check size={32} /></div>
                     <h3 className="mt-6 font-display text-2xl text-navy">Message sent.</h3>
                     <p className="mt-3 text-sm text-slate-600">Thank you for reaching out. We will get back to you as soon as possible.</p>
-                    <button onClick={() => setStatus('idle')} className="focus-ring mt-6 text-xs font-bold uppercase tracking-widest text-forest">Send another message</button>
+                    <button type="button" onClick={() => setStatus('idle')} className="focus-ring mt-6 text-xs font-bold uppercase tracking-widest text-forest">Send another message</button>
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
@@ -91,7 +107,7 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <label htmlFor="subject" className="mb-2 block text-xs font-bold uppercase tracking-wider text-navy">Subject</label>
-                      <input id="subject" name="subject" type="text" className="focus-ring w-full border border-slate-300 bg-cream px-4 py-3 text-sm text-navy outline-none transition-colors focus:border-gold" />
+                      <input id="subject" name="subject" type="text" defaultValue={defaultSubject} className="focus-ring w-full border border-slate-300 bg-cream px-4 py-3 text-sm text-navy outline-none transition-colors focus:border-gold" />
                     </div>
                     <div>
                       <label htmlFor="message" className="mb-2 block text-xs font-bold uppercase tracking-wider text-navy">Message</label>
